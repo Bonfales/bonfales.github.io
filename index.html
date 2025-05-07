@@ -1,327 +1,383 @@
 <!DOCTYPE html>
- <html lang="en">
- <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Bonfales - Welcome</title>
-     <style>
-         /* Basic Reset & Font */
-         * {
-             margin: 0;
-             padding: 0;
-             box-sizing: border-box;
-         }
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonfales - Welcome</title>
+    <style>
+        /* Basic Reset & Font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-         body {
-             font-family: sans-serif;
-             color: #f0f0f0; /* Default light text color for dark theme */
-             background: linear-gradient(-45deg, #0b132b, #388e3c, #1e3d2b, #4caf50); /* Default dark theme gradient */
-             background-size: 400% 400%;
-             animation: gradientBG 15s ease infinite;
-             min-height: 100vh;
-             padding: 20px;
-             transition: color 0.5s ease, background 0.5s ease; /* Smoother transition for text and background */
-         }
+        body {
+            font-family: sans-serif;
+            color: #f0f0f0; /* Default light text color for dark theme */
+            background: linear-gradient(-45deg, #0b132b, #388e3c, #1e3d2b, #4caf50); /* Default dark theme gradient */
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+            transition: color 0.5s ease, background 0.5s ease, opacity 0.3s ease-in-out;
+            opacity: 1;
+            position: relative;
+        }
 
-         /* Light Theme Styles */
-         body.light-theme {
-             color: #333;
-             background: linear-gradient(-45deg, #e0f2f7, #b2ebf2, #80deea, #4dd0e1); /* Light blue background */
-         }
+        /* Light Theme Styles */
+        body.light-theme {
+            color: #333;
+            background: linear-gradient(-45deg, #e0f2f7, #b2ebf2, #80deea, #4dd0e1);
+        }
 
-         body.light-theme header {
-             background-color: #1e90ff; /* Dodger Blue header */
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-         }
+        body.light-theme header {
+            background-color: #1e90ff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-         body.light-theme .content-box {
-             background-color: #f5f5f5; /* Light gray content box */
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-             transition: background-color 0.3s ease, box-shadow 0.3s ease;
-         }
+        body.light-theme .content-box {
+            background-color: #f5f5f5;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-         body.light-theme .content-box h2 {
-             color: #1e3a8a; /* Dark blue heading */
-         }
+        body.light-theme .content-box h2 {
+            color: #1e3a8a;
+        }
 
-         body.light-theme .content-box h3 {
-             color: #4169e1; /* Medium blue subheading */
-         }
+        body.light-theme .content-box h3 {
+            color: #4169e1;
+        }
 
-         body.light-theme .specs-list li i {
-             color: #008080; /* Teal icon color */
-         }
+        body.light-theme .specs-list li i {
+            color: #008080;
+        }
 
-         body.light-theme .content-right a {
-             color: #0000cd; /* Medium blue link color */
-         }
+        body.light-theme .content-right a {
+            color: #0000cd;
+        }
 
-         /* Keyframes for the gradient animation */
-         @keyframes gradientBG {
-             0% { background-position: 0% 50%; }
-             50% { background-position: 100% 50%; }
-             100% { background-position: 0% 50%; }
-         }
+        body.light-theme .theme-switcher-button {
+            color: #333;
+        }
 
-         /* Main Container */
-         .container {
-             max-width: 1000px;
-             margin: 20px auto;
-             opacity: 0; /* Start hidden for fade-in */
-             animation: fadeIn 1s ease-out forwards; /* Fade-in animation */
-         }
+        /* Keyframes for the gradient animation */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-         /* Header Styling */
-         header {
-             background-color: #121d3a; /* Slightly darker blue */
-             padding: 20px;
-             text-align: center;
-             border-radius: 15px;
-             margin-bottom: 20px;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-             transform: translateY(-20px); /* Start slightly up for slide-in */
-             opacity: 0;
-             animation: slideFadeIn 0.8s ease-out 0.2s forwards; /* Delayed slide/fade */
-             display: flex; /* For aligning theme switcher */
-             align-items: center;
-             justify-content: center;
-             position: relative; /* For absolute positioning of the switcher */
-             transition: background-color 0.3s ease, box-shadow 0.3s ease;
-         }
+        /* Main Container */
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
 
-         header h1 {
-             font-size: 2.5em;
-             color: #ffffff;
-             transition: color 0.3s ease;
-         }
+        /* Header Styling */
+        header {
+            background-color: #121d3a;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
 
-         /* Theme Switcher */
-         .theme-switcher-button {
-             position: absolute;
-             top: 10px;
-             right: 10px;
-             background: none;
-             border: none;
-             color: #fff;
-             cursor: pointer;
-             outline: none;
-             font-size: 1.2em;
-             padding: 5px;
-             transition: color 0.3s ease;
-         }
+        header h1 {
+            font-size: 2.5em;
+            color: #ffffff;
+            transition: color 0.3s ease;
+            margin-left: 20px;
+            margin-right: auto;
+        }
 
-         body.light-theme .theme-switcher-button {
-             color: #333;
-         }
+        /* UUP Button */
+        .uup-button {
+            background-color: #5cb85c;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
 
-         .theme-switcher-button i {
-             vertical-align: middle;
-         }
+        .uup-button:hover {
+            background-color: #4cae4c;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+        }
 
-         /* Main Content Area Layout */
-         main {
-             display: flex;
-             gap: 20px; /* Space between columns */
-             flex-wrap: wrap; /* Allow wrapping on smaller screens */
-         }
+        /* Theme Switcher */
+        .theme-switcher-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            outline: none;
+            font-size: 1.2em;
+            padding: 5px;
+            transition: color 0.3s ease;
+        }
 
-         /* Styling for Content Boxes */
-         .content-box {
-             background-color: #1c2541; /* Main content box blue */
-             padding: 25px;
-             border-radius: 15px;
-             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-             opacity: 0; /* Start hidden */
-             transform: translateY(20px); /* Start slightly down */
-             transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Added background-color transition */
-         }
+        .theme-switcher-button i {
+            vertical-align: middle;
+        }
 
-         /* Left Content Box */
-         .content-left {
-             flex: 2; /* Takes up more space */
-             min-width: 300px; /* Minimum width before wrapping */
-             animation: slideFadeIn 0.8s ease-out 0.4s forwards; /* Animation */
-         }
+        /* Main Content Area Layout */
+        main {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-         /* Right Content Box */
-         .content-right {
-             flex: 1; /* Takes up less space */
-             min-width: 250px; /* Minimum width */
-             animation: slideFadeIn 0.8s ease-out 0.6s forwards; /* Later Animation */
-         }
+        /* Styling for Content Boxes */
+        .content-box {
+            background-color: #1c2541;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+        }
 
-         /* Text Styling inside Content Boxes */
-         .content-box h2 {
-             font-size: 2em;
-             margin-bottom: 15px;
-             color: #ffffff;
-             transition: color 0.3s ease;
-         }
+        /* Left Content Box */
+        .content-left {
+            flex: 2;
+            min-width: 300px;
+            animation: slideFadeIn 0.8s ease-out 0.4s forwards;
+        }
 
-         .content-box h3 {
-             font-size: 1.2em;
-             margin-top: 20px;
-             margin-bottom: 10px;
-             color: #a7c5eb; /* Lighter blue for subheading */
-             transition: color 0.3s ease;
-         }
+        /* Right Content Box */
+        .content-right {
+            flex: 1;
+            min-width: 250px;
+            animation: slideFadeIn 0.8s ease-out 0.6s forwards;
+        }
 
-         .content-box p {
-             font-size: 1em;
-             line-height: 1.6;
-             margin-bottom: 10px;
-         }
+        /* Text Styling inside Content Boxes */
+        .content-box h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #ffffff;
+            transition: color 0.3s ease;
+        }
 
-         /* Specs List Styling */
-         .specs-list {
-             list-style: none; /* Remove default bullets */
-             padding-left: 0;
-         }
+        .content-box h3 {
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #a7c5eb;
+            transition: color 0.3s ease;
+        }
 
-         .specs-list li {
-             margin-bottom: 8px;
-             display: flex; /* Align icon and text */
-             align-items: center;
-             font-size: 0.95em;
-         }
+        .content-box p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
 
-         .specs-list li i { /* Style for icons (using <i> tag) */
-             margin-right: 10px;
-             color: #5bc0be; /* Teal color for icons */
-             width: 20px; /* Fixed width for alignment */
-             text-align: center;
-             transition: color 0.3s ease;
-         }
+        /* Specs List Styling */
+        .specs-list {
+            list-style: none;
+            padding-left: 0;
+        }
 
-         /* Link Styling */
-         .content-right a {
-             color: #86e1df; /* Light teal for link */
-             text-decoration: none;
-             word-break: break-all; /* Break long URLs */
-             transition: color 0.3s ease;
-         }
+        .specs-list li {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+        }
 
-         .content-right a:hover {
-             text-decoration: underline;
-             color: #ffffff;
-         }
+        .specs-list li i {
+            margin-right: 10px;
+            color: #5bc0be;
+            width: 20px;
+            text-align: center;
+            transition: color 0.3s ease;
+        }
 
-         /* Socials Styling */
-         .other-title {
-             font-size: 2.5em;
-             margin-top: 30px;
-             margin-bottom: 15px;
-             color: #ffffff;
-             text-align: center;
-         }
+        /* Link Styling */
+        .content-right a {
+            color: #86e1df;
+            text-decoration: none;
+            word-break: break-all;
+            transition: color 0.3s ease;
+        }
 
-         .other-link {
-             font-size: 1em;
-             line-height: 1.6;
-             margin-bottom: 10px;
-             text-align: center;
-         }
+        .content-right a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
 
-         .other-link a {
-             color: #86e1df;
-             text-decoration: none;
-             word-break: break-all;
-         }
+        /* Socials Styling */
+        .other-title {
+            font-size: 2.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: #ffffff;
+            text-align: center;
+        }
 
-         .other-link a:hover {
-             text-decoration: underline;
-             color: #ffffff;
-         }
+        .other-link {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            text-align: center;
+        }
 
-         /* Fade-in and Slide/Fade Animations */
-         @keyframes fadeIn {
-             to {
-                 opacity: 1;
-             }
-         }
+        .other-link a {
+            color: #86e1df;
+            text-decoration: none;
+            word-break: break-all;
+        }
 
-         @keyframes slideFadeIn {
-             to {
-                 opacity: 1;
-                 transform: translateY(0);
-             }
-         }
+        .other-link a:hover {
+            text-decoration: underline;
+            color: #ffffff;
+        }
 
-         /* Responsive Design: Stack columns on smaller screens */
-         @media (max-width: 768px) {
-             main {
-                 flex-direction: column; /* Stack columns vertically */
-             }
+        /* Fade-in and Slide/Fade Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
 
-             header h1 {
-                 font-size: 2em;
-             }
+        @keyframes slideFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-             .content-box h2 {
-                 font-size: 1.8em;
-             }
-         }
+        /* Fade Out Class */
+        body.fade-out {
+            opacity: 0;
+        }
 
-     </style>
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
- </head>
- <body>
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            main {
+                flex-direction: column;
+            }
 
-     <div class="container">
-         <header>
-             <h1>Bonfales</h1>
-             <button id="theme-toggle-button" class="theme-switcher-button">
-                 <i class="fas fa-moon"></i>
-             </button>
-         </header>
+            header {
+                flex-direction: column;
+                align-items: flex-start; /* Align items to the left on small screens */
+            }
 
-         <main>
-             <section class="content-box content-left">
-                 <h2>Hello! Welcome to my website.</h2>
-                 <p>I make videos about Windows.</p>
+            header h1 {
+                font-size: 2em;
+                margin-left: 0;
+                margin-right: 0;
+                margin-top: 10px; /* Add some space below the button */
+            }
 
-                 <h3>Device specifications:</h3>
-                 <ul class="specs-list">
-                     <li><i class="fas fa-microchip"></i>Processor: Intel® Core™ i7-7700 3.60GHz</li>
-                     <li><i class="fas fa-memory"></i>RAM: 24.0 GB</li>
-                     <li><i class="fas fa-hdd"></i>Disk: 715 GB SSD</li>
-                     <li><i class="fas fa-desktop"></i>Graphics: Radeon™ RX 560 Series</li>
-                     <li><i class="fas fa-cogs"></i>OS: Windows 11 Pro (Insider Preview) Build 26120.</li>
-                     <li><i class="fas fa-video"></i>Making videos since 2025.</li>
-                 </ul>
-             </section>
+            .uup-button {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
 
-             <section class="content-box content-right">
-                 <h2>My YouTube Channel:</h2>
-                 <p><a href="https://www.youtube.com/@bonfales" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@bonfales</a></p>
+            .theme-switcher-button {
+                top: auto;
+                bottom: 10px;
+                right: 10px;
+            }
 
-                 <h2 class="other-title">Other</h2>
-                 <p class="other-link">Discord: <a href="https://discord.com/invite/tVc7yRNkXu" target="_blank" rel="noopener noreferrer">https://discord.com/invite/tVc7yRNkXu</a></p>
-                 <p class="other-link">Bonfales 2: <a href="https://www.youtube.com/@bonfales2" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@bonfales2</a></p>
-             </section>
-         </main>
-     </div>
+            .content-box h2 {
+                font-size: 1.8em;
+            }
+        }
 
-     <script>
-         const themeToggleButton = document.getElementById('theme-toggle-button');
-         const body = document.body;
-         let isLightTheme = localStorage.getItem('theme') === 'light';
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
 
-         // Set initial theme based on localStorage
-         if (isLightTheme) {
-             body.classList.add('light-theme');
-             themeToggleButton.innerHTML = '<i class="fas fa-sun"></i>';
-         } else {
-             themeToggleButton.innerHTML = '<i class="fas fa-moon"></i>';
-         }
+    <div class="container">
+        <header>
+            <a href="uup.html" class="uup-button" id="uup-link">UUP</a>
+            <h1>Bonfales</h1>
+            <button id="theme-toggle-button" class="theme-switcher-button">
+                <i class="fas fa-moon"></i>
+            </button>
+        </header>
 
-         themeToggleButton.addEventListener('click', function() {
-             isLightTheme = !isLightTheme;
-             body.classList.toggle('light-theme');
-             localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
-             this.innerHTML = isLightTheme ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-         });
-     </script>
+        <main>
+            <section class="content-box content-left">
+                <h2>Hello! Welcome to my website.</h2>
+                <p>I make videos about Windows.</p>
 
- </body>
- </html>
+                <h3>Device specifications:</h3>
+                <ul class="specs-list">
+                    <li><i class="fas fa-microchip"></i>Processor: Intel® Core™ i7-7700 3.60GHz</li>
+                    <li><i class="fas fa-memory"></i>RAM: 24.0 GB</li>
+                    <li><i class="fas fa-hdd"></i>Disk: 715 GB SSD</li>
+                    <li><i class="fas fa-desktop"></i>Graphics: Radeon™ RX 560 Series</li>
+                    <li><i class="fas fa-cogs"></i>OS: Windows 11 Pro (Insider Preview) Build 26120.</li>
+                    <li><i class="fas fa-video"></i>Making videos since 2025.</li>
+                </ul>
+            </section>
+
+            <section class="content-box content-right">
+                <h2>My YouTube Channel:</h2>
+                <p><a href="https://www.youtube.com/@bonfales" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@bonfales</a></p>
+
+                <h2 class="other-title">Other</h2>
+                <p class="other-link">Discord: <a href="https://discord.com/invite/tVc7yRNkXu" target="_blank" rel="noopener noreferrer">https://discord.com/invite/tVc7yRNkXu</a></p>
+                <p class="other-link">Bonfales 2: <a href="https://www.youtube.com/@bonfales2" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@bonfales2</a></p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const themeToggleButton = document.getElementById('theme-toggle-button');
+        const body = document.body;
+        const uupLink = document.getElementById('uup-link');
+
+        let isLightTheme = localStorage.getItem('theme') === 'light';
+
+        if (isLightTheme) {
+            body.classList.add('light-theme');
+            themeToggleButton.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            themeToggleButton.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+
+        themeToggleButton.addEventListener('click', function() {
+            isLightTheme = !isLightTheme;
+            body.classList.toggle('light-theme');
+            localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+            this.innerHTML = isLightTheme ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        uupLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            body.classList.add('fade-out');
+            setTimeout(() => {
+                window.location.href = this.href;
+            }, 300);
+        });
+    </script>
+
+</body>
+</html>
