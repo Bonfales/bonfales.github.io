@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #1E3E2B; /* Dark background for the page */
+            font-family: 'Arial', sans-serif;
+            color: #eee;
+            flex-direction: column;
+            overflow: hidden; /* Prevent scrollbars if elements are slightly off */
+        }
+
+        h1 {
+            color: #eee;
+            margin-bottom: 20px;
+        }
+
+        #gameCanvas {
+            background-color: #35773E; /* Your specified green background */
+            border: 5px solid #1a4a20; /* Darker green border */
+            display: block; /* Remove extra space below canvas */
+            box-shadow: 0 0 20px rgba(0,0,0,0.5); /* Subtle shadow */
+        }
+
+        #score {
+            margin-top: 15px;
+            font-size: 1.5em;
+            color: #eee;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #ffcc00; /* Yellow for messages */
+            text-align: center;
+            max-width: 80%;
+        }
+
+        #controls {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1em;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+    <h1>Snake</h1>
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <div id="score">Score: 0</div>
+    <div id="message">Press Arrow Keys to Start!</div>
+    <div id="controls">Use Arrow Keys to move.</div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const scoreDisplay = document.getElementById('score');
+        const messageDisplay = document.getElementById('message');
+
+        const gridSize = 30; // Size of each snake segment and food item
+        let snake = [];
+        let food = {};
+        let dx = 0; // Current direction x
+        let dy = 0; // Current direction y
+        let score = 0;
+        let lastGameUpdateTime = 0; // Tracks when the *game logic* last updated
+        const gameUpdateInterval = 150; // Milliseconds per game logic step (e.g., 150ms for the snake to move one grid cell)
+        let animationFrameId; // To store the requestAnimationFrame ID
+
+        let nextDirection = null; // Stores the *next* intended direction (single command)
+        let gameActive = false; // Flag to track if the game is actively running (not just drawing initial state)
+        let gameOver = false;
+
+        // Colors
+        const snakeHeadColor = '#000000'; // Black
+        const snakeBodyColor = '#333333'; // Darker grey for body
+        const foodColor = '#FF0000';   // Red
+        const canvasBgColor = '#35773E'; // Your specified green background
+
+        // Helper function for drawing rounded rectangles
+        function roundRect(ctx, x, y, width, height, radius) {
+            if (width < 2 * radius) radius = width / 2;
+            if (height < 2 * radius) radius = height / 2;
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.arcTo(x + width, y, x + width, y + height, radius);
+            ctx.arcTo(x + width, y + height, x, y + height, radius);
+            ctx.arcTo(x, y + height, x, y, radius);
+            ctx.arcTo(x, y, x + width, y, radius);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function generateFood() {
+            let newFood;
+            let collision;
+            do {
+                collision = false;
+                newFood = {
+                    x: Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize,
+                    y: Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize
+                };
+                // Ensure food doesn't spawn on the snake
+                for (let i = 0; i < snake.length; i++) {
+                    if (snake[i].x === newFood.x && snake[i].y === newFood.y) {
+                        collision = true;
+                        break;
+                    }
+                }
+            } while (collision);
+            food = newFood;
+        }
+
+        function initSnake() {
+            // Start snake roughly in the center, ensure it's on a grid
+            const startX = Math.floor(canvas.width / 2 / gridSize) * gridSize;
+            const startY = Math.floor(canvas.height / 2 / gridSize) * gridSize;
+            snake = [{ x: startX, y: startY }];
+            // Initial direction can be set to move right by default
+            dx = gridSize;
+            dy = 0;
+        }
+
+        function draw(currentTime) {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = canvasBgColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw food
+            ctx.fillStyle = foodColor;
+            ctx.fillRect(food.x, food.y, gridSize, gridSize);
+
+            // Calculate interpolation factor (0 to 1) for smooth movement
+            let interpFactor = 0;
+            if (gameActive && !gameOver && dx !== 0 || dy !== 0) { // Only interpolate if game is running and moving
+                interpFactor = Math.min(1, (currentTime - lastGameUpdateTime) / gameUpdateInterval);
+            }
+
+            // Draw snake
+            for (let i = 0; i < snake.length; i++) {
+                const segment = snake[i];
+                let xToDraw = segment.x;
+                let yToDraw = segment.y;
+
+                if (i === 0) { // Head of the snake
+                    ctx.fillStyle = snakeHeadColor;
+                    // Interpolate head position based on current direction
+                    xToDraw = segment.x + dx * interpFactor;
+                    yToDraw = segment.y + dy * interpFactor;
+                } else { // Body segments
+                    ctx.fillStyle = snakeBodyColor;
+                    // Body segments should interpolate from their current (x,y)
+                    // to the (x,y) of the segment *ahead* of them from the *previous* game update.
+                    // This is where the magic of "following" happens.
+                    const prevSegment = snake[i - 1];
+                    xToDraw = segment.x + (prevSegment.x - segment.x) * interpFactor;
+                    yToDraw = segment.y + (prevSegment.y - segment.y) * interpFactor;
+                }
+                
+                roundRect(ctx, xToDraw, yToDraw, gridSize, gridSize, gridSize / 6);
+            }
+
+            // If game is over, draw the game over message
+            if (gameOver) {
+                messageDisplay.textContent = `Game Over! Your score: ${score}. Press any arrow key to restart.`;
+            }
+
+            animationFrameId = requestAnimationFrame(draw);
+        }
+
+        let gameLogicIntervalId; // For setInterval for game logic
+
+        function gameLogicUpdate() {
+            // This function runs at gameUpdateInterval
+            if (gameOver || !gameActive) return;
+
+            // Apply nextDirection if available and valid
+            if (nextDirection !== null) {
+                const [newDx, newDy] = nextDirection;
+                // Prevent 180-degree turns
+                if (!((newDx === -dx && newDy === -dy))) {
+                    dx = newDx;
+                    dy = newDy;
+                }
+                nextDirection = null; // Clear after applying
+            }
+
+            const head = { x: snake[0].x + dx, y: snake[0].y + dy };
+
+            // Check for wall collision
+            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
+                endGame();
+                return;
+            }
+
+            // Check for self-collision (iterate through existing snake segments)
+            for (let i = 0; i < snake.length; i++) { // Check against current positions, if head moves to one of them
+                if (head.x === snake[i].x && head.y === snake[i].y) {
+                    endGame();
+                    return;
+                }
+            }
+
+
+            snake.unshift(head); // Add new head to the beginning
+
+            // Check if food was eaten
+            if (head.x === food.x && head.y === food.y) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                generateFood();
+                // Optional: Increase speed slightly (decrease gameUpdateInterval)
+                // clearInterval(gameLogicIntervalId); // Stop old interval
+                // gameUpdateInterval = Math.max(50, gameUpdateInterval - 5); // Don't go below 50ms
+                // gameLogicIntervalId = setInterval(gameLogicUpdate, gameUpdateInterval); // Start new interval
+            } else {
+                snake.pop(); // Remove tail if no food was eaten
+            }
+
+            lastGameUpdateTime = performance.now(); // Update the time of the last game logic step
+        }
+
+
+        function changeDirection(event) {
+            const keyPressed = event.keyCode;
+            let potentialDx = 0;
+            let potentialDy = 0;
+
+            // Map key codes to grid-based directional changes
+            if (keyPressed === 37) { potentialDx = -gridSize; potentialDy = 0; } // Left arrow
+            else if (keyPressed === 38) { potentialDx = 0; potentialDy = -gridSize; } // Up arrow
+            else if (keyPressed === 39) { potentialDx = gridSize; potentialDy = 0; } // Right arrow
+            else if (keyPressed === 40) { potentialDx = 0; potentialDy = gridSize; } // Down arrow
+            else { return; } // Not an arrow key, ignore
+
+            // --- Game Start / Reset Logic ---
+            if (gameOver) {
+                resetGame();
+                return;
+            }
+
+            if (!gameActive) {
+                gameActive = true;
+                messageDisplay.textContent = '';
+                lastGameUpdateTime = performance.now(); // Start timing
+                dx = potentialDx; // Set initial direction directly
+                dy = potentialDy;
+                gameLogicIntervalId = setInterval(gameLogicUpdate, gameUpdateInterval);
+                return;
+            }
+
+            // --- In-Game Direction Change Logic ---
+            // Only allow setting nextDirection if it's a valid non-180 degree turn
+            // relative to the *current* actual movement direction (dx, dy).
+            if (!((potentialDx === -dx && potentialDy === -dy))) {
+                nextDirection = [potentialDx, potentialDy];
+            }
+        }
+
+        function endGame() {
+            gameOver = true;
+            gameActive = false;
+            clearInterval(gameLogicIntervalId); // Stop the game logic loop
+        }
+
+        function resetGame() {
+            clearInterval(gameLogicIntervalId); // Ensure any old logic loop is stopped
+            cancelAnimationFrame(animationFrameId); // Stop any lingering draw loop
+            initSnake();
+            dx = gridSize; // Reset to initial right direction
+            dy = 0;
+            score = 0;
+            scoreDisplay.textContent = `Score: ${score}`;
+            gameActive = false;
+            gameOver = false;
+            nextDirection = null; // Clear pending direction
+            generateFood();
+            messageDisplay.textContent = 'Press Arrow Keys to Start!';
+            draw(performance.now()); // Draw initial state
+        }
+
+        // Initial setup
+        initSnake();
+        generateFood();
+        draw(performance.now()); // Draw initial state of the game
+
+        document.addEventListener('keydown', changeDirection);
+    </script>
+</body>
+</html>
