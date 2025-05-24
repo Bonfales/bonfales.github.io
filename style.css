@@ -1,5 +1,5 @@
 body {
-    background-color: #222;
+    background-color: #35773E;
     color: #eee;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
@@ -12,5 +12,5 @@ h1 {
 
 canvas {
     border: 2px solid #555;
-    background-color: #000;
+    background-color: #1E3E2B;
 }
