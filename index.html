@@ -3,381 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bonfales - Welcome</title>
-    <style>
-        /* Basic Reset & Font */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: sans-serif;
-            color: #f0f0f0; /* Default light text color for dark theme */
-            background: linear-gradient(-45deg, #0b132b, #388e3c, #1e3d2b, #4caf50); /* Default dark theme gradient */
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            min-height: 100vh;
-            padding: 20px;
-            transition: color 0.5s ease, background 0.5s ease, opacity 0.3s ease-in-out;
-            opacity: 1;
-            position: relative;
-        }
-
-        /* Light Theme Styles */
-        body.light-theme {
-            color: #333;
-            background: linear-gradient(-45deg, #e0f2f7, #b2ebf2, #80deea, #4dd0e1);
-        }
-
-        body.light-theme header {
-            background-color: #1e90ff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        body.light-theme .content-box {
-            background-color: #f5f5f5;
-            color: #333;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        body.light-theme .content-box h2 {
-            color: #1e3a8a;
-        }
-
-        body.light-theme .content-box h3 {
-            color: #4169e1;
-        }
-
-        body.light-theme .specs-list li i {
-            color: #008080;
-        }
-
-        body.light-theme .content-right a {
-            color: #0000cd;
-        }
-
-        body.light-theme .theme-switcher-button {
-            color: #333;
-        }
-
-        /* Keyframes for the gradient animation */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1000px;
-            margin: 20px auto;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-        }
-
-        /* Header Styling */
-        header {
-            background-color: #121d3a;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            position: relative;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-            padding-left: 20px;
-            padding-right: 20px;
-        }
-
-        header h1 {
-            font-size: 2.5em;
-            color: #ffffff;
-            transition: color 0.3s ease;
-            margin-left: 20px;
-            margin-right: auto;
-        }
-
-        /* UUP Button */
-        .uup-button {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .uup-button:hover {
-            background-color: #4cae4c;
-            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Theme Switcher */
-        .theme-switcher-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: #fff;
-            cursor: pointer;
-            outline: none;
-            font-size: 1.2em;
-            padding: 5px;
-            transition: color 0.3s ease;
-        }
-
-        .theme-switcher-button i {
-            vertical-align: middle;
-        }
-
-        /* Main Content Area Layout */
-        main {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        /* Styling for Content Boxes */
-        .content-box {
-            background-color: #1c2541;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: box-shadow 0.3s ease, background-color 0.3s ease;
-        }
-
-        /* Left Content Box */
-        .content-left {
-            flex: 2;
-            min-width: 300px;
-            animation: slideFadeIn 0.8s ease-out 0.4s forwards;
-        }
-
-        /* Right Content Box */
-        .content-right {
-            flex: 1;
-            min-width: 250px;
-            animation: slideFadeIn 0.8s ease-out 0.6s forwards;
-        }
-
-        /* Text Styling inside Content Boxes */
-        .content-box h2 {
-            font-size: 2em;
-            margin-bottom: 15px;
-            color: #ffffff;
-            transition: color 0.3s ease;
-        }
-
-        .content-box h3 {
-            font-size: 1.2em;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            color: #a7c5eb;
-            transition: color 0.3s ease;
-        }
-
-        .content-box p {
-            font-size: 1em;
-            line-height: 1.6;
-            margin-bottom: 10px;
-        }
-
-        /* Specs List Styling */
-        .specs-list {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .specs-list li {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            font-size: 0.95em;
-        }
-
-        .specs-list li i {
-            margin-right: 10px;
-            color: #5bc0be;
-            width: 20px;
-            text-align: center;
-            transition: color 0.3s ease;
-        }
-
-        /* Link Styling */
-        .content-right a {
-            color: #86e1df;
-            text-decoration: none;
-            word-break: break-all;
-            transition: color 0.3s ease;
-        }
-
-        .content-right a:hover {
-            text-decoration: underline;
-            color: #ffffff;
-        }
-
-        /* Socials Styling */
-        .other-title {
-            font-size: 2.5em;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            color: #ffffff;
-            text-align: center;
-        }
-
-        .other-link {
-            font-size: 1em;
-            line-height: 1.6;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-
-        .other-link a {
-            color: #86e1df;
-            text-decoration: none;
-            word-break: break-all;
-        }
-
-        .other-link a:hover {
-            text-decoration: underline;
-            color: #ffffff;
-        }
-
-        /* Fade-in and Slide/Fade Animations */
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes slideFadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Fade Out Class */
-        body.fade-out {
-            opacity: 0;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            main {
-                flex-direction: column;
-            }
-
-            header {
-                flex-direction: column;
-                align-items: flex-start; /* Align items to the left on small screens */
-            }
-
-            header h1 {
-                font-size: 2em;
-                margin-left: 0;
-                margin-right: 0;
-                margin-top: 10px; /* Add some space below the button */
-            }
-
-            .uup-button {
-                font-size: 14px;
-                padding: 8px 15px;
-            }
-
-            .theme-switcher-button {
-                top: auto;
-                bottom: 10px;
-                right: 10px;
-            }
-
-            .content-box h2 {
-                font-size: 1.8em;
-            }
-        }
-
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div class="container">
-        <header>
-            <a href="uup.html" class="uup-button" id="uup-link">UUP</a>
-            <h1>Bonfales</h1>
-            <button id="theme-toggle-button" class="theme-switcher-button">
-                <i class="fas fa-moon"></i>
-            </button>
-        </header>
-
-        <main>
-            <section class="content-box content-left">
-                <h2>Hello! Welcome to my website.</h2>
-                <p>I make videos about Windows.</p>
-
-                <h3>Device specifications:</h3>
-                <ul class="specs-list">
-                    <li><i class="fas fa-microchip"></i>Processor: Intel® Core™ i7-7700 3.60GHz</li>
-                    <li><i class="fas fa-memory"></i>RAM: 24.0 GB</li>
-                    <li><i class="fas fa-hdd"></i>Disk: 715 GB SSD</li>
-                    <li><i class="fas fa-desktop"></i>Graphics: Radeon™ RX 560 Series</li>
-                    <li><i class="fas fa-cogs"></i>OS: Windows 11 Pro (Insider Preview) Build 26120.</li>
-                    <li><i class="fas fa-video"></i>Making videos since 2025.</li>
-                </ul>
-            </section>
-
-            <section class="content-box content-right">
-                <h2>My YouTube Channel:</h2>
-                <p><a href="https://www.youtube.com/@bonfales" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@bonfales</a></p>
-
-                <h2 class="other-title">Other</h2>
-                <p class="other-link">Discord: <a href="https://discord.com/invite/tVc7yRNkXu" target="_blank" rel="noopener noreferrer">https://discord.com/invite/tVc7yRNkXu</a></p>
-                <p class="other-link">Bonfales 2: <a href="https://www.youtube.com/@bonfales2" target="_blank" rel="noopener noreferrer">https://www.youtube.com/@bonfales2</a></p>
-            </section>
-        </main>
-    </div>
+    <h1>Tetris</h1>
+    <canvas id="tetris-canvas" width="300" height="600"></canvas>
+    <p>Arrows: Move | Up Arrow: Rotate | Spacebar: Hard Drop</p>
 
     <script>
-        const themeToggleButton = document.getElementById('theme-toggle-button');
-        const body = document.body;
-        const uupLink = document.getElementById('uup-link');
+        document.addEventListener('DOMContentLoaded', () => {
+            const canvas = document.getElementById('tetris-canvas');
+            const ctx = canvas.getContext('2d');
 
-        let isLightTheme = localStorage.getItem('theme') === 'light';
+            // --- Game Constants ---
+            const COLS = 10;
+            const ROWS = 20;
+            const BLOCK_SIZE = 30;
 
-        if (isLightTheme) {
-            body.classList.add('light-theme');
-            themeToggleButton.innerHTML = '<i class="fas fa-sun"></i>';
-        } else {
-            themeToggleButton.innerHTML = '<i class="fas fa-moon"></i>';
-        }
+            // --- ANIMATION: Constants for animation timings ---
+            const LINE_CLEAR_ANIMATION_DURATION = 400; // in milliseconds
+            const SHAKE_DURATION = 200; // in milliseconds
 
-        themeToggleButton.addEventListener('click', function() {
-            isLightTheme = !isLightTheme;
-            body.classList.toggle('light-theme');
-            localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
-            this.innerHTML = isLightTheme ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-        });
+            // --- Game State ---
+            let grid = createEmptyGrid();
+            let currentPiece;
+            let score = 0;
+            // --- ANIMATION: New state variables ---
+            let isPaused = false;
+            let linesToClear = [];
+            let animationTimer = 0;
+            let shakeTimer = 0;
 
-        uupLink.addEventListener('click', function(event) {
-            event.preventDefault();
-            body.classList.add('fade-out');
-            setTimeout(() => {
-                window.location.href = this.href;
-            }, 300);
+            const PIECES = [
+                { shape: [[1,1],[1,1]], color: 'rgb(255, 255, 0)' },
+                { shape: [[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]], color: 'rgb(0, 255, 255)' },
+                { shape: [[0,1,0],[1,1,1],[0,0,0]], color: 'rgb(128, 0, 128)' },
+                { shape: [[1,1,0],[0,1,1],[0,0,0]], color: 'rgb(255, 0, 0)' },
+                { shape: [[0,1,1],[1,1,0],[0,0,0]], color: 'rgb(0, 255, 0)' },
+                { shape: [[0,0,1],[1,1,1],[0,0,0]], color: 'rgb(255, 165, 0)' },
+                { shape: [[1,0,0],[1,1,1],[0,0,0]], color: 'rgb(0, 0, 255)' }
+            ];
+
+            function drawBlock(x, y, color) {
+                const bevelSize = 4;
+                ctx.fillStyle = color;
+                ctx.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
+                const highlight = `rgba(255, 255, 255, 0.5)`;
+                ctx.fillStyle = highlight;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + BLOCK_SIZE, y);
+                ctx.lineTo(x + BLOCK_SIZE - bevelSize, y + bevelSize);
+                ctx.lineTo(x + bevelSize, y + bevelSize);
+                ctx.lineTo(x + bevelSize, y + BLOCK_SIZE - bevelSize);
+                ctx.lineTo(x, y + BLOCK_SIZE);
+                ctx.closePath();
+                ctx.fill();
+                const shadow = `rgba(0, 0, 0, 0.5)`;
+                ctx.fillStyle = shadow;
+                ctx.beginPath();
+                ctx.moveTo(x + BLOCK_SIZE, y + BLOCK_SIZE);
+                ctx.lineTo(x, y + BLOCK_SIZE);
+                ctx.lineTo(x + bevelSize, y + BLOCK_SIZE - bevelSize);
+                ctx.lineTo(x + BLOCK_SIZE - bevelSize, y + BLOCK_SIZE - bevelSize);
+                ctx.lineTo(x + BLOCK_SIZE - bevelSize, y + bevelSize);
+                ctx.lineTo(x + BLOCK_SIZE, y);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            function drawPiece(piece, isGhost = false) {
+                ctx.globalAlpha = isGhost ? 0.3 : 1.0;
+                // ANIMATION: Use visualX and visualY for smooth movement
+                const drawX = piece.visualX !== undefined ? piece.visualX : piece.x;
+                const drawY = piece.visualY !== undefined ? piece.visualY : piece.y;
+                piece.shape.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if (value === 1) {
+                            if (isGhost) {
+                                ctx.fillStyle = piece.color;
+                                ctx.fillRect(
+                                    (drawX + x) * BLOCK_SIZE,
+                                    (drawY + y) * BLOCK_SIZE,
+                                    BLOCK_SIZE, BLOCK_SIZE
+                                );
+                            } else {
+                                drawBlock(
+                                    (drawX + x) * BLOCK_SIZE,
+                                    (drawY + y) * BLOCK_SIZE,
+                                    piece.color
+                                );
+                            }
+                        }
+                    });
+                });
+                ctx.globalAlpha = 1.0;
+            }
+
+            function drawGrid() {
+                grid.forEach((row, y) => {
+                    row.forEach((color, x) => {
+                        if (color) {
+                            drawBlock(x * BLOCK_SIZE, y * BLOCK_SIZE, color);
+                        }
+                    });
+                });
+            }
+            
+            // ANIMATION: New function to draw line clear effect
+            function drawLineClearAnimation() {
+                const progress = 1 - (animationTimer / LINE_CLEAR_ANIMATION_DURATION);
+                // Simple flashing effect
+                const flash = Math.abs(Math.sin(progress * Math.PI * 4)); 
+                ctx.fillStyle = `rgba(255, 255, 255, ${flash})`;
+                
+                linesToClear.forEach(y => {
+                    ctx.fillRect(0, y * BLOCK_SIZE, canvas.width, BLOCK_SIZE);
+                });
+            }
+
+            function createEmptyGrid() { return Array.from({ length: ROWS }, () => Array(COLS).fill(null)); }
+
+            function spawnNewPiece() {
+                const pieceTemplate = PIECES[Math.floor(Math.random() * PIECES.length)];
+                currentPiece = {
+                    ...pieceTemplate,
+                    x: Math.floor(COLS / 2) - Math.floor(pieceTemplate.shape[1].length / 2),
+                    y: 0,
+                    // ANIMATION: Add visual positions for smooth movement
+                    visualX: Math.floor(COLS / 2) - Math.floor(pieceTemplate.shape[1].length / 2),
+                    visualY: 0
+                };
+                 if (!isValidMove(currentPiece.shape, currentPiece.x, currentPiece.y)) {
+                    alert('Game Over! Your Score: ' + score);
+                    grid = createEmptyGrid();
+                    score = 0;
+                }
+            }
+            
+            function isValidMove(shape, gridX, gridY) {
+                for (let y = 0; y < shape.length; y++) {
+                    for (let x = 0; x < shape[y].length; x++) {
+                        if (shape[y][x] === 1) {
+                            let newX = Math.floor(gridX + x);
+                            let newY = Math.floor(gridY + y);
+                            if (newX < 0 || newX >= COLS || newY >= ROWS || (grid[newY] && grid[newY][newX])) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+
+            function lockPiece() {
+                currentPiece.shape.forEach((row, y) => {
+                    row.forEach((value, x) => {
+                        if (value === 1) {
+                            grid[currentPiece.y + y][currentPiece.x + x] = currentPiece.color;
+                        }
+                    });
+                });
+                
+                // ANIMATION: Instead of clearing lines immediately, start the animation
+                checkForLineClears();
+            }
+
+            // ANIMATION: New function to start the line clear process
+            function checkForLineClears() {
+                linesToClear = [];
+                for (let y = ROWS - 1; y >= 0; y--) {
+                    if (grid[y].every(cell => cell !== null)) {
+                        linesToClear.push(y);
+                    }
+                }
+
+                if (linesToClear.length > 0) {
+                    isPaused = true;
+                    animationTimer = LINE_CLEAR_ANIMATION_DURATION;
+                } else {
+                    spawnNewPiece();
+                }
+            }
+
+            // ANIMATION: New function that runs after the animation is done
+            function finishLineClear() {
+                score += linesToClear.length * 100;
+                linesToClear.sort((a,b) => a - b).forEach(y => {
+                     grid.splice(y, 1);
+                     grid.unshift(Array(COLS).fill(null));
+                });
+                spawnNewPiece();
+            }
+
+            function rotatePiece() {
+                const shape = currentPiece.shape;
+                const newShape = shape.map((_, i) => shape.map(col => col[i]).reverse());
+                if (isValidMove(newShape, currentPiece.x, currentPiece.y)) {
+                    currentPiece.shape = newShape;
+                }
+            }
+            
+            document.addEventListener('keydown', (e) => {
+                if (isPaused) return; // ANIMATION: Disable controls during animations
+                if (!currentPiece) return;
+
+                if (e.key === 'ArrowLeft') {
+                    if (isValidMove(currentPiece.shape, currentPiece.x - 1, currentPiece.y)) {
+                        currentPiece.x--;
+                    }
+                } else if (e.key === 'ArrowRight') {
+                    if (isValidMove(currentPiece.shape, currentPiece.x + 1, currentPiece.y)) {
+                        currentPiece.x++;
+                    }
+                } else if (e.key === 'ArrowDown') {
+                    if (isValidMove(currentPiece.shape, currentPiece.x, currentPiece.y + 1)) {
+                        currentPiece.y++;
+                        dropCounter = 0;
+                    }
+                } else if (e.key === 'ArrowUp') {
+                    rotatePiece();
+                } else if (e.key === ' ') { // ANIMATION: Hard Drop
+                    e.preventDefault(); // Prevent page from scrolling
+                    let ghostY = currentPiece.y;
+                    while(isValidMove(currentPiece.shape, currentPiece.x, ghostY + 1)) {
+                        ghostY++;
+                    }
+                    currentPiece.y = ghostY;
+                    currentPiece.visualY = ghostY; // Snap visual position
+                    shakeTimer = SHAKE_DURATION; // Trigger shake
+                    lockPiece();
+                }
+            });
+
+            let dropCounter = 0;
+            let dropInterval = 1000;
+            let lastTime = 0;
+
+            function gameLoop(time = 0) {
+                const deltaTime = time - lastTime;
+                lastTime = time;
+
+                // --- ANIMATION: Update timers and handle animation states ---
+                if (isPaused) {
+                    animationTimer -= deltaTime;
+                    if (animationTimer <= 0) {
+                        isPaused = false;
+                        finishLineClear();
+                    }
+                } else if (shakeTimer > 0) {
+                    shakeTimer -= deltaTime;
+                } else {
+                    // --- Normal Game Logic ---
+                    dropCounter += deltaTime;
+                    if (dropCounter > dropInterval) {
+                        if (isValidMove(currentPiece.shape, currentPiece.x, currentPiece.y + 1)) {
+                            currentPiece.y++;
+                        } else {
+                            lockPiece();
+                        }
+                        dropCounter = 0;
+                    }
+                }
+
+                // --- ANIMATION: Smoothly move the visual piece towards the logical piece ---
+                if (currentPiece) {
+                    const lerpFactor = 0.3; // How fast it tweens, 0-1
+                    currentPiece.visualX += (currentPiece.x - currentPiece.visualX) * lerpFactor;
+                    currentPiece.visualY += (currentPiece.y - currentPiece.visualY) * lerpFactor;
+                }
+                
+                // --- Drawing ---
+                ctx.save(); // Save context for screen shake
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // ANIMATION: Apply screen shake if active
+                if (shakeTimer > 0) {
+                    const shakeIntensity = 5 * (shakeTimer / SHAKE_DURATION);
+                    const shakeX = (Math.random() - 0.5) * shakeIntensity;
+                    const shakeY = (Math.random() - 0.5) * shakeIntensity;
+                    ctx.translate(shakeX, shakeY);
+                }
+
+                drawGrid();
+                
+                if (currentPiece) {
+                    let ghostY = currentPiece.y;
+                    while(isValidMove(currentPiece.shape, currentPiece.x, ghostY + 1)) {
+                        ghostY++;
+                    }
+                    // Use logical X for ghost calculation but visual X for drawing
+                    const ghostPiece = {...currentPiece, y: ghostY, visualX: currentPiece.visualX, visualY: ghostY};
+                    drawPiece(ghostPiece, true);
+                    drawPiece(currentPiece);
+                }
+                
+                // ANIMATION: Draw the line clear animation on top of everything
+                if (isPaused) {
+                    drawLineClearAnimation();
+                }
+
+                ctx.restore(); // Restore context from screen shake
+                requestAnimationFrame(gameLoop);
+            }
+
+            spawnNewPiece();
+            gameLoop();
         });
     </script>
-
 </body>
 </html>
